@@ -30,14 +30,14 @@ export class ProductsController {
     const isExsist = products.find((item) => item.product === body.product);
 
     if (isExsist) {
-      res.status(401).send({
+      return res.status(401).send({
         msg: 'This product already exsists',
       });
     }
 
     this.productsService.addNewProduct(body);
 
-    res.status(200).send({
+    return res.status(200).send({
       msg: 'Added successfully',
     });
   }
