@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { ProductsService } from './products.service';
 
 export interface Product {
-  product: string;
+  brand: string;
+  model: string;
   price: number;
   category: string;
   subcategory: string;
@@ -27,7 +36,9 @@ export class ProductsController {
   addProduct(@Body() body: Product, @Res() res: Response) {
     const products = this.productsService.downloadProducts();
 
-    const isExsist = products.find((item) => item.product === body.product);
+    const isExsist = products.find(
+      (item) => item.model === body.model && item.brand === body.brand,
+    );
 
     if (isExsist) {
       return res.status(401).send({
@@ -45,11 +56,11 @@ export class ProductsController {
   @Post('/update')
   updateProduct() {}
 
-  @Get('/remove/:product')
-  removeProduct(@Res() res: Response, @Param('product') product: string) {
+  @Delete('/remove/:model')
+  removeProduct(@Res() res: Response, @Param('model') model: string) {
     const lengthBeforeRemoving = this.productsService.downloadProducts().length;
 
-    const lengthAfterRemoving = this.productsService.remove(product).length;
+    const lengthAfterRemoving = this.productsService.remove(model).length;
 
     if (lengthAfterRemoving < lengthBeforeRemoving) {
       return res.status(200).send({

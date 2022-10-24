@@ -19,9 +19,9 @@ export class ProductsService {
 
   update() {}
 
-  remove(productName: string) {
+  remove(productModel: string) {
     this.allProducts = this.allProducts.filter(
-      (item) => item.product !== productName,
+      (item) => item.model !== productModel,
     );
 
     return this.allProducts;
