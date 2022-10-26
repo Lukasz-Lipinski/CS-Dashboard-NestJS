@@ -53,8 +53,21 @@ export class ProductsController {
     });
   }
 
+  // finish this method!
   @Post('/update')
-  updateProduct() {}
+  updateProduct(
+    @Res() res: Response,
+    @Body() body: { oldProduct: Product; newProduct: Product },
+  ) {
+    const allProducts = this.getProducts().products;
+    const productForUpdating = allProducts.find(
+      (item) =>
+        item.brand === body.oldProduct.brand &&
+        item.model === body.oldProduct.model,
+    );
+
+    return res.json(productForUpdating);
+  }
 
   @Delete('/remove/:model')
   removeProduct(@Res() res: Response, @Param('model') model: string) {
