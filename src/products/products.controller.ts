@@ -57,16 +57,15 @@ export class ProductsController {
   @Post('/update')
   updateProduct(
     @Res() res: Response,
-    @Body() body: { oldProduct: Product; newProduct: Product },
+    @Body() body: { product: Product; index: number },
   ) {
-    const allProducts = this.getProducts().products;
-    const productForUpdating = allProducts.find(
-      (item) =>
-        item.brand === body.oldProduct.brand &&
-        item.model === body.oldProduct.model,
-    );
+    const newProductsList = this.getProducts().products;
+    newProductsList.splice(body.index, 1, body.product);
 
-    return res.json(productForUpdating);
+    this.productsService.update(newProductsList);
+    return res.status(200).send({
+      msg: 'Successful',
+    });
   }
 
   @Delete('/remove/:model')

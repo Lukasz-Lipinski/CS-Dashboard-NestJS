@@ -17,7 +17,9 @@ export class ProductsService {
     return 'Added successfully';
   }
 
-  update() {}
+  update(newProductsList: Product[]) {
+    this.allProducts = newProductsList;
+  }
 
   remove(productModel: string) {
     this.allProducts = this.allProducts.filter(
